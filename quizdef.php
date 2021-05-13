@@ -1,6 +1,5 @@
 <?php
 require_once "dbconnector.php";
-$dataBase->questionList_Identifier();
 ?>
 
 <html>
@@ -8,7 +7,7 @@ $dataBase->questionList_Identifier();
 </head>
 <body>
 <div>
-    <?php $dataBase->questionList_Compactor(); ?>
+    <?php $dataBase->quizName_identifier();?>
 </div>
 </body>
 </html>

@@ -37,9 +37,18 @@ class dataBaseConnector
         $this->subrows = mysqli_fetch_all($this->result);
     }
 
+    function courseName_Identifier(){
+        $this->queryBD("Select `mdl_course`.`id`, `mdl_course`.`fullname`, `mdl_course`.`format` from `mdl_course` where `mdl_course`.`format` != 'site'");
+        for ($i = 0; $i <= count($this->rows) - 1; $i++) {
+            echo "<li>";
+            echo "<a href='quizdef.php?id=" . $this->rows[$i][0] . "'>" . $this->rows[$i][1];
+            echo "</li>";
+        }
+    }
+
     function quizName_identifier()
     {
-        $this->queryBD("SELECT `mdl_quiz`.`id`, `mdl_quiz`.`name`, `mdl_quiz`.`intro` FROM `mdl_quiz`");
+        $this->queryBD("SELECT `mdl_quiz`.`id`, `mdl_quiz`.`name`, `mdl_quiz`.`intro` FROM `mdl_quiz` where `mdl_quiz`.`course` =" . $_GET['id']);
         for ($i = 0; $i <= count($this->rows) - 1; $i++) {
             echo "<li>";
             echo "<a href='quizdef.php?id=" . $this->rows[$i][0] . "'>";
@@ -78,7 +87,7 @@ class dataBaseConnector
     {
         switch ($this->rows[$i][3]){
             case "multichoice":
-                $this->multiChoice_Identifier($this->rows[$i][2]);
+                //$this->multiChoice_Identifier($this->rows[$i][2]);
                 break;
             case "truefalse":
 
@@ -86,15 +95,15 @@ class dataBaseConnector
         }
     }
 
-    function multiChoice_Identifier($questionId){
-        $this->subQueryBD(" SELECT mdl_question_answers.answer 
-        FROM mdl_question 
-        LEFT JOIN mdl_question_answers on mdl_question_answers.question = mdl_question.id
-        WHERE mdl_question.id = " . $questionId);
-        for($i = 0; $i <= count($this->subrows) - 1; $i++){
-            echo $this->subrows[$i][0];
-        }
-    }
+//    function multiChoice_Identifier($questionId){
+//        $this->subQueryBD(" SELECT mdl_question_answers.answer
+//        FROM mdl_question
+//        LEFT JOIN mdl_question_answers on mdl_question_answers.question = mdl_question.id
+//        WHERE mdl_question.id = " . $questionId);
+//        for($i = 0; $i <= count($this->subrows) - 1; $i++){
+//            echo $this->subrows[$i][0];
+//        }
+//    }
 }
 $dataBase = new dataBaseConnector();
 $dataBase->connectDB();
